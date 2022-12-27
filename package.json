@@ -1,0 +1,30 @@
+{
+  "name": "interview_project",
+  "version": "1.0.0",
+  "description": "Interview Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node ./api/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aleyna İlbeyi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "env-cmd": "^10.1.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "md5": "^2.3.0",
+    "pg": "^8.8.0",
+    "sequelize": "^6.28.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.7",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "nodemon": "^2.0.20",
+    "sequelize-cli": "^6.5.2"
+  }
+}
