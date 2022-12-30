@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
 				foreignKey: 'userId',
 				otherKey: 'roleId'
 			});
+      models.Users.hasMany(models.Questions, {
+				foreignKey: 'user_id'
+			});
     }
   }
   Users.init({

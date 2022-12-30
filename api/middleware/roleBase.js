@@ -1,11 +1,11 @@
 import db from '../src/models';
 
-exports.roleBase = function (permissionId) {
+exports.roleBase = function (userId, permissionId) {
 	return async function (req, res, next) {
 		try {
-			const user = await db.Users.findOne({
+			const user = await db.UserRoles.findOne({
 				where: {
-					id: req.body.userId
+					id: userId
 				},
 				include: {
 					model: db.Roles,
@@ -30,7 +30,7 @@ exports.roleBase = function (permissionId) {
 			else {
 				return res.status(401).json('You dont have permission!');
 			}
-
+			
 		}
 		catch (error) {
 			throw error;
