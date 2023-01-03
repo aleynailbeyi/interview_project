@@ -2,8 +2,8 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Permissions', [ {
+	async up (queryInterface) {
+		await queryInterface.bulkInsert('Permissions', [ {
 			permission: 'Create Interview',
 			createdAt: new Date(),
 			updatedAt: new Date()
@@ -24,9 +24,9 @@ module.exports = {
 			createdAt: new Date(),
 			updatedAt: new Date()
 		} ], {});
-  },
+	},
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Permissions', null, {});
-  }
+	async down (queryInterface) {
+		await queryInterface.bulkDelete('Permissions', null, {});
+	}
 };

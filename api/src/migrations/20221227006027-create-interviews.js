@@ -2,25 +2,45 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Questions', {
+		await queryInterface.createTable('Interviews', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			text: {
+			applicant_name: {
 				type: Sequelize.STRING
 			},
-			user_id: {
+			location: {
+				type: Sequelize.STRING
+			},
+			note: {
+				type: Sequelize.STRING
+			},
+			interview_type: {
 				type: Sequelize.INTEGER,
 				references: {
-					model: 'Users',
+					model: 'InterviewTypes',
 					key: 'id'
 				}
 			},
-			name_id: {
-				type: Sequelize.INTEGER
+			team_id: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'Teams',
+					key: 'id'
+				}
+			},
+			status_id: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'InterviewStatuses',
+					key: 'id'
+				}
+			},
+			dateAt: {
+				type: Sequelize.DATE
 			},
 			createdAt: {
 				allowNull: false,
@@ -37,6 +57,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface) {
-		await queryInterface.dropTable('Questions');
+		await queryInterface.dropTable('Interviews');
 	}
 };

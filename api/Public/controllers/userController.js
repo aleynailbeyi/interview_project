@@ -1,7 +1,7 @@
- import userService from '../services/userService';
- import 'http';
+import userService from '../services/userService';
+import 'http';
  
- class authController {
+class authController {
  
 	 static async userRegister(req, res) {
 		const result = await userService.register(req.body);
@@ -16,5 +16,5 @@
 		return res.json(result);
 	 }
  
- }
- export default authController;
+}
+export default authController;

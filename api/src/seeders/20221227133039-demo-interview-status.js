@@ -2,15 +2,25 @@
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('InterviewStatuses', [ {
+	async up (queryInterface) {
+		await queryInterface.bulkInsert('InterviewStatuses', [ {
+			status_name: 'Mülakat hazırlanıyor.',
+			createdAt: new Date(),
+			updatedAt: new Date()
+		},
+		{
 			status_name: 'Mülakat tamamlandı.',
 			createdAt: new Date(),
 			updatedAt: new Date()
+		},
+		{
+			status_name: 'Mülakat silindi.',
+			createdAt: new Date(),
+			updatedAt: new Date()
 		} ], {});
-  },
+	},
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('InterviewStatuses', null, {});
-  }
+	async down (queryInterface) {
+		await queryInterface.bulkDelete('InterviewStatuses', null, {});
+	}
 };
