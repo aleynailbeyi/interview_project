@@ -4,7 +4,7 @@ class interviewService {
 
 	static async createInterview(req){
 		try {
-			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt } = req.body;
+			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt, send_file } = req.body;
 			
 			const interview = {
 				applicant_name,
@@ -13,7 +13,8 @@ class interviewService {
 				interview_type,
 				team_id,
 				status_id,
-				dateAt
+				dateAt,
+				send_file
 			};
 			const new_interview = await db.Interviews.create(interview, {
 				include: [
@@ -53,6 +54,23 @@ class interviewService {
 				type: true, data: getInterview, message: 'Mülakatlar listelendi'
 			};
 		}
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
+	static async getInterviewById(req){
+		try {
+			const interviewID = await db.Interviews.findOne({
+				where: {
+					id: req.params.id,
+					is_removed: false
+				}
+			});
+			if (!interviewID)
+				return ({ type: false, message: 'Bu id de mülakat bulunamadı.' });
+			else
+				return { type: true, data: interviewID, message: 'Mülakat bulundu' };  
+		} 
 		catch (error) {
 			return { type: false, message: error.message };
 		}

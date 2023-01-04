@@ -21,7 +21,8 @@ module.exports = (sequelize, DataTypes) => {
 		text: DataTypes.STRING,
 		user_id: DataTypes.INTEGER,
 		name_id: DataTypes.INTEGER,
-		type_id: DataTypes.INTEGER
+		type_id: DataTypes.INTEGER,
+		is_removed: DataTypes.BOOLEAN
 	}, {
 		sequelize,
 		modelName: 'Questions'

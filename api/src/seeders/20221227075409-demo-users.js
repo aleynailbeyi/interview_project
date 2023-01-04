@@ -10,18 +10,20 @@ module.exports = {
 			password: 'char',
 			createdAt: new Date(),
 			updatedAt: new Date()
-		}, {
-			firstName: 'Burak',
-			lastName: 'Yılmazer',
-			email: 'burakyilmazer@gmail.com',
-			password: '988232',
+		},
+		{
+			firstName: 'Aleyna',
+			lastName: 'İlbeyi',
+			email: 'a@gmail.com',
+			password: 'char',
 			createdAt: new Date(),
 			updatedAt: new Date()
-		}, {
-			firstName: 'Alperen',
-			lastName: 'Taşkın',
-			email: 'alperentaskin@gmail.com',
-			password: '1367454',
+		},
+		{
+			firstName: 'Aleyna',
+			lastName: 'İlbeyi',
+			email: 'a@gmail.com',
+			password: 'char',
 			createdAt: new Date(),
 			updatedAt: new Date()
 		} ], {});

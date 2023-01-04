@@ -28,12 +28,12 @@ class interview {
 		}
 		return true;
 	}
-	static async validateDeleteInterview (body) {
-		const deleteInterviewSchema = Joi.object({
+	static async validateCompleteInterview (body) {
+		const completeInterviewSchema = Joi.object({
 			id: Joi.number()
 				.required()
 		});
-		const result = deleteInterviewSchema.validate(body);
+		const result = completeInterviewSchema.validate(body);
 		if (result.error) {
 			return { message: result.error.details[0].message, type: false };
 		}

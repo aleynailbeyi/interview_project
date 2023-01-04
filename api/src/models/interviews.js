@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
 		team_id: DataTypes.INTEGER,
 		status_id: DataTypes.INTEGER,
 		dateAt: DataTypes.DATE,
-		is_removed: DataTypes.BOOLEAN
+		is_removed: DataTypes.BOOLEAN,
+		send_file: DataTypes.STRING
 	}, {
 		sequelize,
 		modelName: 'Interviews'

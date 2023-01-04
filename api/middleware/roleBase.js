@@ -2,29 +2,35 @@ import db from '../src/models';
 
 class roleBaseFunction {
 
-	static roleBase() {
-		return async (req, res, next, permissionId) => {
+	static roleBase(permissionId) {
+		return async (req, res, next) => {
 			try {
 				console.log('decoded', req.decoded);
 				const user = await db.Users.findOne({
 					where: {
 						id: req.decoded.userId
 					},
-					include: {
-						model: db.Roles,
-						include: {
-							model: db.Permissions,
-							where: {
-								id: permissionId
-							},
+					include: [
+						{
+							model: db.Roles,
+							required: true,
 							through: {
 								attributes: []
-							}
-						},
-						through: {
-							attributes: []
-						} 
-					}
+							},
+							include: [
+								{
+									model: db.Permissions,
+									required: true,
+									through: {
+										attributes: []
+									},
+									where: {
+										id: permissionId
+									}
+								}
+							]
+						}
+					]
 				});
 				console.log(JSON.parse(JSON.stringify(user)));
 				if (user){

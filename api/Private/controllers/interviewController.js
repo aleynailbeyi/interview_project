@@ -22,15 +22,27 @@ class interviewController{
 		return res.json(result);
 	}
 	static async completeInterview(req, res){
-		const result = await interviewService.completeInterview(req);
+		try {
+			const validated_complete = await interview.validateCompleteInterview(req.body);
+			if (!validated_complete) {
+				return { type: false, message: validated_complete.message };
+			}
+			const result = await interviewService.completeInterview(req);
+			return res.json(result);
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
+	static async getInterviewById(req, res){
+		const result = await interviewService.getInterviewById(req);
 		return res.json(result);
 	}
-	
+
 	static async deleteInterview(req, res) {
 		try {
 			const result = await interviewService.deleteInterview(req);
 			return res.json(result);
-
 		}
 		catch (error) {
 			return { type: false, message: error.message };

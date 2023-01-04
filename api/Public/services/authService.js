@@ -59,7 +59,7 @@ class authService {
 		catch (err) {
 			throw (err);
 		}
-	}
+	}	
 
 }
 export default authService;

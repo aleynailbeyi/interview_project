@@ -22,6 +22,13 @@ module.exports = {
 			name_id: {
 				type: Sequelize.INTEGER
 			},
+			type_id: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'QuestionTypes',
+					key: 'id'
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE
