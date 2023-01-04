@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
 			models.Interviews.belongsTo(models.InterviewTypes, { foreignKey: 'interview_type'});
 			models.Interviews.belongsTo(models.Teams, { foreignKey: 'team_id'});
 			models.Interviews.belongsTo(models.InterviewStatuses, { foreignKey: 'status_id'});
+			models.Interviews.belongsTo(models.Files, { foreignKey: 'send_file'});
 		}
 	
 	}
@@ -26,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 		status_id: DataTypes.INTEGER,
 		dateAt: DataTypes.DATE,
 		is_removed: DataTypes.BOOLEAN,
-		send_file: DataTypes.STRING
+		send_file: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: 'Interviews'

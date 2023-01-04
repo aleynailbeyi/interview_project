@@ -4,7 +4,8 @@ class interviewService {
 
 	static async createInterview(req){
 		try {
-			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt, send_file } = req.body;
+			// eslint-disable-next-line max-len
+			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt, send_file } = JSON.parse(req.body.data);
 			
 			const interview = {
 				applicant_name,
@@ -16,6 +17,14 @@ class interviewService {
 				dateAt,
 				send_file
 			};
+			const file = await db.Files.create(interview, {
+				include: {
+					model: db.Files
+				}
+			});
+			if (!file) {
+				return { type: false, message: 'File is uploaded' };
+			}
 			const new_interview = await db.Interviews.create(interview, {
 				include: [
 					{

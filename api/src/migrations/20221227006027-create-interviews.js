@@ -53,7 +53,15 @@ module.exports = {
 			is_removed: {
 				type: Sequelize.BOOLEAN,
 				defaultValue: false
+			},
+			send_file: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'Files',
+					key: 'id'
+				}
 			}
+
 		});
 	},
 	async down(queryInterface) {
