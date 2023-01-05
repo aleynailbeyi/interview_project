@@ -12,17 +12,17 @@ module.exports = {
 			updatedAt: new Date()
 		},
 		{
-			firstName: 'Aleyna',
-			lastName: 'İlbeyi',
-			email: 'a@gmail.com',
-			password: 'char',
+			firstName: 'Burak',
+			lastName: 'Yılmazer',
+			email: 'burak@gmail.com',
+			password: 'adafass',
 			createdAt: new Date(),
 			updatedAt: new Date()
 		},
 		{
-			firstName: 'Aleyna',
-			lastName: 'İlbeyi',
-			email: 'a@gmail.com',
+			firstName: 'Buğra',
+			lastName: 'Okyay',
+			email: 'bugra@gmail.com',
 			password: 'char',
 			createdAt: new Date(),
 			updatedAt: new Date()

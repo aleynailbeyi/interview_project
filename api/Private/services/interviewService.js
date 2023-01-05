@@ -6,43 +6,56 @@ class interviewService {
 		try {
 			// eslint-disable-next-line max-len
 			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt, send_file } = JSON.parse(req.body.data);
+			const result = await db.sequelize.transaction(async (t) => {
+				const interview = {
+					applicant_name,
+					location,
+					note,
+					interview_type,
+					team_id,
+					status_id,
+					dateAt,
+					send_file
+				};
+				const file = await db.Interviews.findOne({
+					where: {
+						id: send_file
+					}
+				}, { transaction: t });
+				if (!file) {
+					return { type: false, message: 'File not upload' };
+				}
+				console.log('send_file', send_file);
+				const new_file = await db.Files.create(send_file, {
+					include: {
+						model: db.Interviews
+					}
+				}, { transaction: t });
+				if (!new_file) {
+					return { type: false, message: 'File not upload' };
+				}
+				const new_interview = await db.Interviews.create(interview, {
+					include: [
+						{
+							model: db.Teams
+						},
+						{
+							model: db.InterviewTypes
+						},
+						{
+							model: db.InterviewStatuses
+						},
+						{
+							model: db.Files
+						}
+					]
+				}, { transaction: t });
 			
-			const interview = {
-				applicant_name,
-				location,
-				note,
-				interview_type,
-				team_id,
-				status_id,
-				dateAt,
-				send_file
-			};
-			const file = await db.Files.create(interview, {
-				include: {
-					model: db.Files
+				if (!new_interview) {
+					return { type: false, message: 'Kayıt gerçekleştirilemedi.' };
 				}
 			});
-			if (!file) {
-				return { type: false, message: 'File is uploaded' };
-			}
-			const new_interview = await db.Interviews.create(interview, {
-				include: [
-					{
-						model: db.Teams
-					},
-					{
-						model: db.InterviewTypes
-					},
-					{
-						model: db.InterviewStatuses
-					}
-				]
-			});
-			
-			if (!new_interview) {
-				return { type: false, message: 'Kayıt gerçekleştirilemedi.' };
-			}
-			return { data: new_interview,
+			return { data: result,
 				message: 'Mülakat oluşturuldu.',
 				type: true };
 
@@ -126,4 +139,4 @@ class interviewService {
 	}
 
 }
-module.exports = interviewService;
+export default interviewService;
