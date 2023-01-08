@@ -11,18 +11,17 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			models.Questions.belongsTo(models.InterviewTypes, { foreignKey: 'name_id'});
-			models.Questions.belongsTo(models.Users, { foreignKey: 'user_id'});
 			models.Questions.hasMany(models.QuestionTypes, { foreignKey: 'type_id'});
+			models.Questions.belongsTo(models.Surveys, { foreignKey: 'survey_id' });
+			models.Questions.hasMany(models.Choices, { foreignKey: 'questionId'});
 		}
 	
 	}
 	Questions.init({
 		text: DataTypes.STRING,
-		user_id: DataTypes.INTEGER,
-		name_id: DataTypes.INTEGER,
 		type_id: DataTypes.INTEGER,
-		is_removed: DataTypes.BOOLEAN
+		is_removed: DataTypes.BOOLEAN,
+		survey_id: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: 'Questions'

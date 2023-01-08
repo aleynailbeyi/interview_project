@@ -12,9 +12,6 @@ module.exports = {
 			applicant_name: {
 				type: Sequelize.STRING
 			},
-			location: {
-				type: Sequelize.STRING
-			},
 			note: {
 				type: Sequelize.STRING
 			},
@@ -43,13 +40,21 @@ module.exports = {
 				type: Sequelize.DATE
 			},
 			is_removed: {
+				defaultValue: false,
 				allowNull: false,
 				type: Sequelize.BOOLEAN
 			},
-			send_file: {
-				type: Sequelize.INTEGER, 
+			location_id: {
+				type: Sequelize.INTEGER,
 				references: {
-					model: 'Files',
+					model: 'Locations',
+					key: 'id'
+				}
+			},
+			surveyId: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'Surveys',
 					key: 'id'
 				}
 			},

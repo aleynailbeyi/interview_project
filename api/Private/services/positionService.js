@@ -6,11 +6,7 @@ class positionService {
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
 
-				const position = await db.Positions.create(req.body, {
-					include: {
-						model: db.Teams
-					}
-				}, { transaction: t });
+				const position = await db.Positions.create(req.body, { transaction: t });
 				if (!position) {
 					return {
 						type: false,

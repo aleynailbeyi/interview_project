@@ -6,11 +6,7 @@ class teamService {
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
 
-				const team = await db.Teams.create(req.body, {
-					include: {
-						model: db.Interviews
-					}
-				}, { transaction: t });
+				const team = await db.Teams.create(req.body, { transaction: t });
 				if (!team) {
 					return {
 						type: false,

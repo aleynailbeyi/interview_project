@@ -11,12 +11,13 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			models.Files.hasMany(models.Interviews, { foreignKey: 'send_file'});
+			models.Files.belongsTo(models.Interviews, { foreignKey: 'interviewID'});
 		}
 	
 	}
 	Files.init({
-		file_name: DataTypes.STRING
+		file_name: DataTypes.STRING,
+		interviewID: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: 'Files'

@@ -4,24 +4,9 @@ class questionService {
 
 	static async createQuestion(req){
 		try {
-			const { user_id, type_id, name_id, text } = req.body;
 			const result = await db.sequelize.transaction(async (t) => {
-				const body = {
-					text,
-					type_id,
-					name_id,
-					user_id
-				};
-				const questions = await db.Questions.create(body, {
-					include: [
-						{
-							model: db.InterviewTypes
-						}, 
-						{
-							model: db.QuestionTypes
-						}
-					]
-				}, { transaction: t });
+				
+				const questions = await db.Questions.create(req.body, { transaction: t });
 				if (!questions) {
 					return {
 						type: false,

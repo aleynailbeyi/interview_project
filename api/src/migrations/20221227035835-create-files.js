@@ -12,6 +12,13 @@ module.exports = {
 			file_name: {
 				type: Sequelize.STRING
 			},
+			interviewID: {
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'Interviews',
+					key: 'id'
+				}
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

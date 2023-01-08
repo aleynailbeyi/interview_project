@@ -5,58 +5,48 @@ class interviewService {
 	static async createInterview(req){
 		try {
 			// eslint-disable-next-line max-len
-			const { applicant_name, location, note, interview_type, team_id, status_id, dateAt, send_file } = JSON.parse(req.body.data);
+			const { applicant_name, location_id, note, interview_type, team_id, status_id, dateAt, surveyId} = JSON.parse(req.body.data);
+			
+			const files = req.files;
+
+			const fileArr = [];
+
+			files.map(item => {
+				fileArr.push({
+					file_name: item.filename
+				});
+			});
+			console.log('fileArr', files);
 			const result = await db.sequelize.transaction(async (t) => {
 				const interview = {
 					applicant_name,
-					location,
+					location_id,
 					note,
 					interview_type,
 					team_id,
 					status_id,
 					dateAt,
-					send_file
+					Files: fileArr,
+					surveyId
 				};
-				const file = await db.Interviews.findOne({
-					where: {
-						id: send_file
-					}
-				}, { transaction: t });
-				if (!file) {
-					return { type: false, message: 'File not upload' };
-				}
-				console.log('send_file', send_file);
-				const new_file = await db.Files.create(send_file, {
-					include: {
-						model: db.Interviews
-					}
-				}, { transaction: t });
-				if (!new_file) {
-					return { type: false, message: 'File not upload' };
-				}
 				const new_interview = await db.Interviews.create(interview, {
 					include: [
 						{
-							model: db.Teams
-						},
-						{
-							model: db.InterviewTypes
-						},
-						{
-							model: db.InterviewStatuses
-						},
-						{
 							model: db.Files
+							
+						},
+						{
+							model: db.Surveys
 						}
 					]
 				}, { transaction: t });
 			
 				if (!new_interview) {
-					return { type: false, message: 'Kayıt gerçekleştirilemedi.' };
+					return { type: false, message: 'Interview isnt create' };
 				}
 			});
 			return { data: result,
-				message: 'Mülakat oluşturuldu.',
+				message: 'Interview created.',
 				type: true };
 
 		}
@@ -68,7 +58,16 @@ class interviewService {
 		try {
 			const getInterview = await db.Interviews.findAll({ where: {
 				is_removed: false
-			}});
+			},
+			include: [
+				{
+					model: db.Files
+					
+				},
+				{
+					model: db.Surveys
+				}
+			]});
 			if (!getInterview) {
 				return { type: false, message: 'Mülakatlar listelenemedi'};
 			}

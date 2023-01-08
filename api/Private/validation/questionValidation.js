@@ -9,10 +9,7 @@ class question {
 			type_id: Joi.number()
 				.integer()
 				.required(),
-			name_id: Joi.number()
-				.integer()
-				.required(),
-			user_id: Joi.number()
+			survey_id: Joi.number()
 				.integer()
 				.required()
 		});
