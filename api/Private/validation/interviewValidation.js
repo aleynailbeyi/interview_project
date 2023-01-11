@@ -6,20 +6,28 @@ class interview {
 		const interviewSchema = Joi.object({
 			applicant_name: Joi.string()
 				.required(),
-			location: Joi.string()
-				.required(),
 			note: Joi.string()
 				.required(),
 			interview_type: Joi.number()
+			    .integer()
 				.required(),
 			team_id: Joi.number()
-				.integer()
+			    .integer()
 				.required(),
 			status_id: Joi.number()
 				.integer()
 				.required(),
 			dateAt: Joi.date()
 				.iso()
+				.required(),
+			status_id: Joi.number()
+				.integer()
+				.required(),
+			location_id: Joi.number()
+				.integer()
+				.required(),
+			surveyId: Joi.number()
+				.integer()
 				.required()
 		});
 		const result = interviewSchema.validate(body);

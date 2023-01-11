@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Teams.init({
 		team_name: DataTypes.STRING,
-		team_manager: DataTypes.STRING
+		team_manager: DataTypes.STRING,
+		is_removed: DataTypes.BOOLEAN
 	}, {
 		sequelize,
 		modelName: 'Teams'

@@ -4,29 +4,31 @@ import db from '../../src/models';
 
 class authService {
 
-	static async register(body) {
+	static async register(req) {
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
-				console.log('body', body);
-				const isEmailTaken = await db.Users.findOne({where: { email: body.email }});		
+				console.log('body', req);
+				const isEmailTaken = await db.Users.findOne({where: { email: req.email }});		
 				if (isEmailTaken) return {
 					type: false,
 					message: 'Email is already taken.'
 				};
 
 				const dbUser = await db.Users.create({
-					firstName: body.firstName,
-					lastName: body.lastName,
-					email: body.email,
-					password: md5(body.password),
-					UserRoles: {
-						roleId: body.roleId
-					}
+					firstName: req.firstName,
+					lastName: req.lastName,
+					email: req.email,
+					password: md5(req.password),
+					UserRoles: [
+						{
+							roleId: req.UserRoles[0].roleId
+						}
+					]
 				}, {transction: t});
-				console.log('dbuser', body.UserRoles[0].roleId);
+				console.log('dbuser', req.UserRoles[0].roleId);
 				const userRole = await db.UserRoles.create( {
 					userId: dbUser.id,
-					roleId: body.UserRoles[0].roleId
+					roleId: req.UserRoles[0].roleId
 
 				}, { transaction: t });
 			
@@ -54,7 +56,7 @@ class authService {
 			const token = await jwt.sign(
 				{ userId: user.id },
 				'wrong-secret',
-				{ expiresIn: '1h' }
+				{ expiresIn: '1d' }
 			);
 			return {
 				status: 200,

@@ -17,7 +17,8 @@ module.exports = (sequelize, DataTypes) => {
 	}
 	Choices.init({
 		questionId: DataTypes.INTEGER,
-		name: DataTypes.STRING
+		name: DataTypes.STRING,
+		is_removed: DataTypes.BOOLEAN
 	}, {
 		sequelize,
 		modelName: 'Choices'

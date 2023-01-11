@@ -21,11 +21,11 @@ class surveyService {
 				if (!survey) {
 					return {
 						type: false,
-						message: 'Hata! Sorular oluşturulamadı.'
+						message: 'Error! Surveys could not be created.'
 					};
 				}
 			});
-			return { data: result, type: true, message: 'Sorularınız oluşturuldu.'};
+			return { data: result, type: true, message: 'Surveys created.'};
 
 		}
 		catch (error) {
@@ -50,7 +50,7 @@ class surveyService {
 				]
 			});
 			if (!surveys) {
-				return { type: false, message: 'Surveys isnt get.' };
+				return { type: false, message: 'Surveys could not be get.' };
 			}
 			return {
 				type: true,
@@ -63,19 +63,23 @@ class surveyService {
 		}
 	}
 	static async deleteSurvey(req) {
-		try {
-			const deleted = await db.Surveys.update({
-				is_removed: true
-			}, {
-				where: {
-					id: req.params.id,
-					is_removed: false
-				}
-			});
-			if (deleted[0])
-				return ({ type: true, message: 'Survey deleted' });
-			else 
-				return ({ type: false, message: 'Survey didnt found' });
+		try {	
+			const deleted = await db.Surveys.update(
+				{
+					is_removed: true
+					
+				},
+				{
+					where: {
+						id: req.params.id,
+						is_removed: false
+					}
+				});
+			console.log('deleted', deleted);
+			if (!deleted[0]) {
+				return ({ type: false, message: 'survey not deleted' });
+			}
+			return ({ type: true, message: 'survey deleted' });
 		} 
 		catch (error) {
 			return { type: false, message: error.message };
@@ -83,4 +87,4 @@ class surveyService {
 	}
 
 }
-module.exports = surveyService;
+export default surveyService;

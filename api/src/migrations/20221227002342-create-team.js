@@ -15,6 +15,10 @@ module.exports = {
 			team_manager: {
 				type: Sequelize.STRING
 			},
+			is_removed: {
+				type: Sequelize.BOOLEAN,
+				defaultValue: false
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE

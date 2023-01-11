@@ -1,5 +1,7 @@
 'use strict';
 
+const md5 = require('md5');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up (queryInterface) {
@@ -7,7 +9,7 @@ module.exports = {
 			firstName: 'Aleyna',
 			lastName: 'İlbeyi',
 			email: 'a@gmail.com',
-			password: 'char',
+			password: md5('char'),
 			createdAt: new Date(),
 			updatedAt: new Date()
 		},

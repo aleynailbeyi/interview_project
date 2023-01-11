@@ -3,8 +3,13 @@ import http from 'http';
 import parser from 'body-parser';
 import pb from './Public';
 import pr from './Private';
+import options from '../api/src/config/swagger';
+import expressSwagger from 'express-swagger-generator';
+import cors from 'cors';
 
 const app = express();
+
+expressSwagger(app)(options);
 
 const server = http.createServer(app);
 
@@ -14,6 +19,8 @@ app.get('/health', (req, res) => {
 		message: 'System is healthy'
 	});
 });
+
+app.use(cors());
 
 app.use(parser.json());
 app.use(parser.urlencoded({ extended: true }));

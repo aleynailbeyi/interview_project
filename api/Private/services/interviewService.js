@@ -13,7 +13,8 @@ class interviewService {
 
 			files.map(item => {
 				fileArr.push({
-					file_name: item.filename
+					file_name: item.filename,
+					path: item.path
 				});
 			});
 			console.log('fileArr', files);
@@ -42,7 +43,7 @@ class interviewService {
 				}, { transaction: t });
 			
 				if (!new_interview) {
-					return { type: false, message: 'Interview isnt create' };
+					return { type: false, message: 'Interview not be created' };
 				}
 			});
 			return { data: result,
@@ -69,10 +70,10 @@ class interviewService {
 				}
 			]});
 			if (!getInterview) {
-				return { type: false, message: 'Mülakatlar listelenemedi'};
+				return { type: false, message: 'Interviews not listed'};
 			}
 			return {
-				type: true, data: getInterview, message: 'Mülakatlar listelendi'
+				type: true, data: getInterview, message: 'Interviews listed'
 			};
 		}
 		catch (error) {
@@ -85,12 +86,21 @@ class interviewService {
 				where: {
 					id: req.params.id,
 					is_removed: false
-				}
+				},
+				include: [
+					{
+						model: db.Files
+						
+					},
+					{
+						model: db.Surveys
+					}
+				]
 			});
 			if (!interviewID)
-				return ({ type: false, message: 'Bu id de mülakat bulunamadı.' });
+				return ({ type: false, message: 'Not found interview this id.' });
 			else
-				return { type: true, data: interviewID, message: 'Mülakat bulundu' };  
+				return { type: true, data: interviewID, message: 'Interview found successfully.' };  
 		} 
 		catch (error) {
 			return { type: false, message: error.message };

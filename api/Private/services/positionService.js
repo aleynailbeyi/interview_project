@@ -4,17 +4,15 @@ class positionService {
 
 	static async createPosition (req){
 		try {
-			const result = await db.sequelize.transaction(async (t) => {
-
-				const position = await db.Positions.create(req.body, { transaction: t });
-				if (!position) {
-					return {
-						type: false,
-						message: 'Hata! Pozisyon oluşturulamadı.'
-					};
-				}
-			});
-			return { data: result, type: true, message: 'Pozisyon oluşturuldu.'};
+			const position = await db.Positions.create(req.body);
+			if (!position) {
+				return {
+					type: false,
+					message: 'Error! Position not created.'
+				};
+			}
+		
+			return { data: position, type: true, message: 'Successfully. Position created.'};
 
 		}
 		catch (error) {
@@ -29,12 +27,12 @@ class positionService {
 				}
 			});
 			if (!getPositionResult) {
-				return { type: false, message: 'Pozisyonlar getirilemedi' };
+				return { type: false, message: 'Positions not get all' };
 			}
 			return {
 				type: true,
 				data: getPositionResult,
-				message: 'Pozisyonlar getirildi'
+				message: 'Get positions successfully.'
 			};
 		} 
 		catch (error) {
@@ -62,4 +60,4 @@ class positionService {
 	}
 
 }
-module.exports = positionService;
+export default positionService;
