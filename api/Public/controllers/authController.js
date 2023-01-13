@@ -8,7 +8,6 @@
  * @property  {string} lastName.required - user's last name.
  * @property  {string} email.required - user's email.
  * @property  {string} password.required - user's password.
- * @property  {Array .<UserRoles>} UserRoles.required - user's role.
  */
 
 /**
@@ -27,7 +26,6 @@
  * @property {boolean} type
  * @property {string} message
  * @property {Token.model} data
- * @property {RoleBase.model} data
  */
 
 /**
@@ -51,11 +49,10 @@ class authController {
 	 */
 	 static async userRegister(req, res) {
 		try {
-			const validated_register = await Auth.validateRegister(req.body);
-			if (!validated_register.type) {
+			const validated_register = await Auth.validateRegister(req);
+			if (validated_register.type) {
 				res.json({type: false, message: validated_register.message});
 			}
-			console.log(123);
 			const result = await authService.register(req.body);
 
 			if (result.type) res.json({type: true, message: result.message});
@@ -75,16 +72,21 @@ class authController {
 	  * @returns {Response.model} 200
 	  */
 	 static async userLogin(req, res) {
-		const validated_login = await Auth.validateLogin(req.body);
+		try {
+			const validated_login = await Auth.validateLogin(req);
 
-		if (!validated_login.type) {
-			res.json({type: false, message: validated_login.message});
+			if (validated_login.type) {
+				res.json({type: false, message: validated_login.message});
+			}
+			else {
+				const result = await authService.login(req.body);
+
+				if (result.type) res.json(result);
+				else res.json({type: false, message: result.message});
+			}
 		}
-		else {
-			const result = await authService.login(req.body);
-
-			if (result.type) res.json({type: true, message: result.message});
-			else res.json({type: false, message: result.message});
+		catch (error) {
+			return { type: false, message: error.message };
 		}
 	 }
  

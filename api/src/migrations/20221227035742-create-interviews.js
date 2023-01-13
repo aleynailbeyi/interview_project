@@ -9,6 +9,14 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
+			userID: {
+				type: Sequelize.INTEGER, 
+				allowNull: false,
+				references: {
+					model: 'Users',
+					key: 'id'
+				}
+			},
 			applicant_name: {
 				type: Sequelize.STRING
 			},
@@ -31,12 +39,17 @@ module.exports = {
 			},
 			status_id: {
 				type: Sequelize.INTEGER, 
+				defaultValue: 1,
+				allowNull: false,
 				references: {
 					model: 'InterviewStatuses',
 					key: 'id'
 				}
 			},
 			dateAt: {
+				type: Sequelize.DATE
+			},
+			endAt: {
 				type: Sequelize.DATE
 			},
 			is_removed: {

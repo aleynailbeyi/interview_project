@@ -12,7 +12,7 @@ const id = 1;
 
 describe('Questions', () => {
 	before(async () => {
-		tokenUser = await tokenTest.getToken('test@gmail.com', 'test');
+		tokenUser = await tokenTest.getToken('aleyna@gmail.com', '123456');
 	});
 	it('should get questions', (done) => {
 		chai.request(app)
@@ -37,8 +37,8 @@ describe('Questions', () => {
 				if (err) {
 					done(err);
 				}
-				res.body.should.have.property('type').eql(false);
-				res.body.should.have.property('message').eql('Question didnt found');
+				res.body.should.have.property('type').eql(true);
+				res.body.should.have.property('message').eql('Question deleted');
 				done();
 			});
 	});

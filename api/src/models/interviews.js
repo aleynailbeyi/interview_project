@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 			models.Interviews.hasMany(models.Files, { foreignKey: 'interviewID' });
 			models.Interviews.belongsTo(models.Locations, { foreignKey: 'location_id'});
 			models.Interviews.belongsTo(models.Surveys, { foreignKey: 'surveyId'});
+			models.Interviews.belongsTo(models.Users, { foreignKey: 'userID'});
 		}
 	
 	}
@@ -27,9 +28,11 @@ module.exports = (sequelize, DataTypes) => {
 		team_id: DataTypes.INTEGER,
 		status_id: DataTypes.INTEGER,
 		dateAt: DataTypes.DATE,
+		endAt: DataTypes.DATE,
 		is_removed: DataTypes.BOOLEAN,
 		location_id: DataTypes.INTEGER,
-		surveyId: DataTypes.INTEGER
+		surveyId: DataTypes.INTEGER,
+		userID: DataTypes.INTEGER
 	}, {
 		sequelize,
 		modelName: 'Interviews'

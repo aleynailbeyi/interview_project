@@ -17,11 +17,7 @@ class Auth {
 				.required(),
 			password: Joi.string()
 				.pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
-				.required(),
-			UserRoles: Joi.array().items(Joi.object({
-				roleId: Joi.number().required()
-			})
-			)
+				.required()
 		});
 		const result = registerSchema.validate(body);
 		console.log('result', result);
@@ -31,7 +27,7 @@ class Auth {
 		return true;
 	}
 	static async validateLogin (body) {
-		const loginSchema = Joi.object().keys({
+		const loginSchema = Joi.object({
 			email: Joi.string()
 				.email({ minDomainSegments: 2, tlds: { allow: [ 'com', 'net' ] } })
 				.required(),

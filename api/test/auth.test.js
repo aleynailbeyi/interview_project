@@ -5,7 +5,6 @@ import app from '../index';
 
 chai.use(chaiHttp);
 chai.should();
-let expect = chai.expect;
 
 describe('Create User', () => {
   
@@ -16,12 +15,7 @@ describe('Create User', () => {
 				'firstName': 'test',
 				'lastName': 'test',
 				'email': 'test@gmail.com',
-				'password': 'test',
-				'UserRoles': [
-					{
-						'roleId': 1
-					}
-				]
+				'password': 'test'
 			})
 	 		.end((err, res) => {
 				console.log('res', res.body);
@@ -47,7 +41,6 @@ describe('Login User', () => {
 				if (err) {
 					done(err);
 				}
-				expect(res.body.data);
 				res.should.have.status(200);
 				res.body.should.have.property('message').eql('Giriş Başarılı!');
 				res.should.be.a('object');

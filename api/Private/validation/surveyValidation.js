@@ -22,7 +22,7 @@ class Survey {
 		if (result.error) {
 			return {  type: false, message: result.error.details[0].message };
 		}
-		return true;
+		return { type: true };
 	}
 
 }

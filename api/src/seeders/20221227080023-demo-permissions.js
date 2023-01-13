@@ -23,6 +23,14 @@ module.exports = {
 			permission: 'Create Position',
 			createdAt: new Date(),
 			updatedAt: new Date()
+		}, {
+			permission: 'Get All Interview',
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}, {
+			permission: 'Get Interview By Id',
+			createdAt: new Date(),
+			updatedAt: new Date()
 		} ], {});
 	},
 

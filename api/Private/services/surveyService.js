@@ -6,7 +6,7 @@ class surveyService {
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
 				
-				const survey = await db.Surveys.create(req.body, {
+				const survey = await db.Surveys.create(req, {
 					include: [
 						{
 							model: db.Questions,
@@ -62,6 +62,39 @@ class surveyService {
 			return { type: false, message: error.message };
 		}
 	}
+
+	static async getSurveyById(req){
+		try {
+			const survey = await db.Surveys.findOne({
+				where: {
+					id: req.params.id,
+					is_removed: false
+				},
+				include: [
+					{
+						model: db.Questions,
+						include: [
+							{
+								model: db.Choices
+							}
+						]
+					}
+				]
+			});
+			if (!survey) {
+				return { type: false, message: 'Surveys could not be get.' };
+			}
+			return {
+				type: true,
+				data: survey,
+				message: 'Surveys get by id'
+			};
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
+
 	static async deleteSurvey(req) {
 		try {	
 			const deleted = await db.Surveys.update(

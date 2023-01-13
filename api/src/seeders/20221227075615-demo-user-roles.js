@@ -13,11 +13,6 @@ module.exports = {
 			roleId: 2,
 			createdAt: new Date(),
 			updatedAt: new Date()
-		}, {
-			userId: 3,
-			roleId: 3,
-			createdAt: new Date(),
-			updatedAt: new Date()
 		} ], {});
 	},
 

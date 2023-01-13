@@ -7,9 +7,9 @@ import upload from '../../middleware/upload';
 const app = express();
 
 app.post('/createInterview', [ checkAuth, roleBaseFunction.roleBase(1), upload ], interviewController.createInterview);
-app.post('/completeInterview', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.completeInterview);
-app.get('/getAllInterview', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.getAllInterview);
-app.get('/getInterviewById/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.getInterviewById);
+app.put('/completeInterview/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.completeInterview);
+app.get('/getAllInterview', checkAuth, interviewController.getAllInterview);
+app.get('/getInterviewById/:id', checkAuth, interviewController.getInterviewById);
 app.delete('/deleteInterview/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.deleteInterview);
 
 module.exports = app;

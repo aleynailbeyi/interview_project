@@ -23,18 +23,20 @@ let files = [
 
 let data =  {
 	'applicant_name': 'Aysima İlbeyi',
+	'userID': 3,
 	'note': 'abcde',
 	'interview_type': 1,
 	'team_id': 2,
 	'status_id': 1,
 	'dateAt': '2023-03-05 10:22',
+	'endAt': '2023-03-05 10:52',
 	'location_id': 1,
 	'surveyId': 1
 };
 
 describe('Interviews', () => {
 	before(async () => {
-		tokenUser = await tokenTest.getToken('test@gmail.com', 'test');
+		tokenUser = await tokenTest.getToken('aleyna@gmail.com', '123456');
 	});
 	// eslint-disable-next-line no-loop-func
 	it(`file ${files} should pass`, (done) => {
@@ -102,12 +104,8 @@ describe('Interviews', () => {
 	});
 	it('should complete interview', (done) => {
 		chai.request(app)
-			.post('/private/v1/interview/completeInterview')
+			.put('/private/v1/interview/completeInterview/1')
 			.set('Authorization', tokenUser)
-			.send({
-				'id': 1,
-    			'status_id': 2
-			})
 			.end((err, res) => {
 				if (err) {
 					done(err);

@@ -38,7 +38,7 @@ class SurveyController{
 	 */
 	static async createSurvey(req, res){
 		try {
-			const validated_survey = await Survey.validateCreateSurvey(req.body);
+			const validated_survey = await Survey.validateCreateSurvey(req);
 			if (!validated_survey) {
 				return { type: false, message: validated_survey.message };
 			}
@@ -66,6 +66,19 @@ class SurveyController{
 		catch (error) {
 			return { type: false, message: error.message };
 		}
+	}
+
+	/**
+	 * @route GET /private/v1/survey/getSurveyById/{id} - Survey Detail
+	 * @group Survey 
+	 * @param {number} id.path.required
+	 * @returns {Error.model}  error
+	 * @returns {Survey.model} 200
+	 * @security JWT
+	 */
+	 static async getSurveyById(req, res){
+		const result = await surveyService.getSurveyById(req);
+		return res.json(result);
 	}
 
 	/**

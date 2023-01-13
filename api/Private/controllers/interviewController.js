@@ -1,11 +1,11 @@
-
 /**
  * @typedef CreateInterview
  * @consumes multipart/form-data
+ * @property {integer} userID.required
  * @property {string} applicant_name.required
  * @property {string} note.required
  * @property {integer} interview_type.required
- * @property {integer}team_id.required
+ * @property {integer} team_id.required
  * @property {integer} status_id.required
  * @property {string} dateAt.required
  * @property {integer} location_id.required
@@ -25,25 +25,22 @@ class interviewController{
 
 	/**
 	 * @route POST /private/v1/interview/createInterview - Create Interview
-	 * @group Interview 
-	 * @param {file} files.data.required
-	 * @param {CreateInterview.model} CreateInterview.body.required
-	 * @returns {Error.model}  error
+	 * @group Interview
+	 * @param {file} files.formData.required
+	 * @param {string} data.formData.required
 	 * @returns {CreateInterview.model} 200
 	 * @security JWT
 	 */
 	static async createInterview(req, res){
 		try {
-			const validated_interview = await interview.validateCreateInterview(req.body);
-			if (!validated_interview.type) {
+			const validated_interview = await interview.validateCreateInterview(req);
+
+			if (!validated_interview) {
 				res.json({type: false, message: validated_interview.message});
 			}
-			else {
-				const result = await interviewService.createInterview(req.body);
-
-				if (result.type) res.json({type: true, message: result.message});
-				else res.json({type: false, message: result.message});
-			}
+			const result = await interviewService.createInterview(req);
+			
+			return res.json(result);
 			
 		}
 		catch (error) {
@@ -62,18 +59,20 @@ class interviewController{
 		const result = await interviewService.getAllInterview(req);
 		return res.json(result);
 	}
+
+	/**
+	 * @route PUT /private/v1/interview/completeInterview/{id} - Interview completed
+	 * @group Interview 
+	 * @param {number} id.path.required
+	 * @returns {Error.model}  error
+	 * @returns {CreateInterview.model} 200
+	 * @security JWT
+	 */
 	static async completeInterview(req, res){
 		try {
-			const validated_complete = await interview.validateCompleteInterview(req.body);
-			if (!validated_complete.type) {
-				res.json({type: false, message: validated_complete.message});
-			}
-			else {
-				const result = await interviewService.completeInterview(req);
+			const result = await interviewService.completeInterview(req);
 
-				if (result.type) res.json({type: true, message: result.message});
-				else res.json({type: false, message: result.message});
-			}
+			return res.json(result);
 			
 		} 
 		catch (error) {

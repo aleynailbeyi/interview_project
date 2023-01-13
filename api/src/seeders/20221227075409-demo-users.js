@@ -8,8 +8,8 @@ module.exports = {
 		return queryInterface.bulkInsert('Users', [ {
 			firstName: 'Aleyna',
 			lastName: 'İlbeyi',
-			email: 'a@gmail.com',
-			password: md5('char'),
+			email: 'aleyna@gmail.com',
+			password: md5('123456'),
 			createdAt: new Date(),
 			updatedAt: new Date()
 		},
@@ -17,15 +17,7 @@ module.exports = {
 			firstName: 'Burak',
 			lastName: 'Yılmazer',
 			email: 'burak@gmail.com',
-			password: 'adafass',
-			createdAt: new Date(),
-			updatedAt: new Date()
-		},
-		{
-			firstName: 'Buğra',
-			lastName: 'Okyay',
-			email: 'bugra@gmail.com',
-			password: 'char',
+			password: md5('burak'),
 			createdAt: new Date(),
 			updatedAt: new Date()
 		} ], {});

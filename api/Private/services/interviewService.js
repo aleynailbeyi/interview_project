@@ -5,10 +5,10 @@ class interviewService {
 	static async createInterview(req){
 		try {
 			// eslint-disable-next-line max-len
-			const { applicant_name, location_id, note, interview_type, team_id, status_id, dateAt, surveyId} = JSON.parse(req.body.data);
-			
+			const { userID, applicant_name, location_id, note, interview_type, team_id, dateAt, endAt, surveyId} = JSON.parse(req.body.data);
+			console.log('reqqq', req.files);
 			const files = req.files;
-
+			
 			const fileArr = [];
 
 			files.map(item => {
@@ -18,35 +18,46 @@ class interviewService {
 				});
 			});
 			console.log('fileArr', files);
-			const result = await db.sequelize.transaction(async (t) => {
-				const interview = {
-					applicant_name,
-					location_id,
-					note,
-					interview_type,
-					team_id,
-					status_id,
-					dateAt,
-					Files: fileArr,
-					surveyId
-				};
-				const new_interview = await db.Interviews.create(interview, {
-					include: [
-						{
-							model: db.Files
+	
+			const interview = {
+				userID,
+				applicant_name,
+				location_id,
+				note,
+				interview_type,
+				team_id,
+				dateAt,
+				endAt,
+				Files: fileArr,
+				surveyId
+			};
+			const new_interview = await db.Interviews.create(interview, {
+
+				include: [
+					{
+						model: db.Files
 							
-						},
-						{
-							model: db.Surveys
-						}
-					]
-				}, { transaction: t });
-			
-				if (!new_interview) {
-					return { type: false, message: 'Interview not be created' };
-				}
+					},
+					{
+						model: db.Surveys,
+						include: [
+							{
+								model: db.Questions,
+								include: [
+									{
+										model: db.Choices
+									}
+								]
+							}
+						]
+					}
+				]
 			});
-			return { data: result,
+			
+			if (!new_interview) {
+				return { type: false, message: 'Interview not be created' };
+			}
+			return { data: interview,
 				message: 'Interview created.',
 				type: true };
 
@@ -66,7 +77,17 @@ class interviewService {
 					
 				},
 				{
-					model: db.Surveys
+					model: db.Surveys,
+					include: [
+						{
+							model: db.Questions,
+							include: [
+								{
+									model: db.Choices
+								}
+							]
+						}
+					]
 				}
 			]});
 			if (!getInterview) {
@@ -93,7 +114,17 @@ class interviewService {
 						
 					},
 					{
-						model: db.Surveys
+						model: db.Surveys,
+						include: [
+							{
+								model: db.Questions,
+								include: [
+									{
+										model: db.Choices
+									}
+								]
+							}
+						]
 					}
 				]
 			});
@@ -108,15 +139,16 @@ class interviewService {
 	}
 	static async completeInterview(req) {
 		try {
-			const interview = await db.Interviews.update({
-				status_id: req.body.status_id
+			const completed = await db.Interviews.update({
+				status_id: 2
 			},
 			{
 				where: {
-					id: req.body.id
+					id: req.params.id,
+					is_removed: false 
 				}
 			});
-			if (!interview) {
+			if (!completed) {
 				return { type: false, message: 'Mülakat tamamlanamadı' };
 			}
 			return { type: true, message: 'Mülakat tamamlandı' };

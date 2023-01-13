@@ -18,7 +18,6 @@ class interview {
 				.integer()
 				.required(),
 			dateAt: Joi.date()
-				.iso()
 				.required(),
 			status_id: Joi.number()
 				.integer()
@@ -31,21 +30,11 @@ class interview {
 				.required()
 		});
 		const result = interviewSchema.validate(body);
+		
 		if (result.error) {
 			return {  type: false, message: result.error.details[0].message };
 		}
-		return true;
-	}
-	static async validateCompleteInterview (body) {
-		const completeInterviewSchema = Joi.object({
-			id: Joi.number()
-				.required()
-		});
-		const result = completeInterviewSchema.validate(body);
-		if (result.error) {
-			return { message: result.error.details[0].message, type: false };
-		}
-		return true;
+		return { type: true };
 	}
 
 }

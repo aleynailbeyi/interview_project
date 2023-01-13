@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
 	
 	}
 	InterviewTypes.init({
-		name: DataTypes.STRING
+		name: DataTypes.STRING,
+		is_removed: DataTypes.BOOLEAN
 	}, {
 		sequelize,
 		modelName: 'InterviewTypes'

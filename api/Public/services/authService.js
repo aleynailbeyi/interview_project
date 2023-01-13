@@ -18,53 +18,40 @@ class authService {
 					firstName: req.firstName,
 					lastName: req.lastName,
 					email: req.email,
-					password: md5(req.password),
-					UserRoles: [
-						{
-							roleId: req.UserRoles[0].roleId
-						}
-					]
+					password: md5(req.password)
 				}, {transction: t});
-				console.log('dbuser', req.UserRoles[0].roleId);
-				const userRole = await db.UserRoles.create( {
-					userId: dbUser.id,
-					roleId: req.UserRoles[0].roleId
-
-				}, { transaction: t });
 			
-				if (!userRole) {
+				if (!dbUser) {
 					return { data: null, message: 'Kayıt gerçekleştirilemedi.', type: false };
 				}
+				
 			});
 			return { data: result, message: 'Yeni kayıt oluşturuldu.', type: true };
-		} 
+		}
 		catch (err) {
 			throw (err);
 		}
 	}
-	static async login(body) {
+	static async login(req) {
 		try {
 			
-			const user = await db.Users.findOne({ where: { email: body.email, password: md5(body.password) } });
+			const user = await db.Users.findOne({ where: { email: req.email, password: md5(req.password) } });
 			if (!user) {
 				return ({
-					status: 401,
 					type: false,
 					message: 'Giriş Yapılamadı.'
 				});
 			}
-			const token = await jwt.sign(
+			
+			const token = jwt.sign(
 				{ userId: user.id },
 				'wrong-secret',
 				{ expiresIn: '1d' }
 			);
 			return {
-				status: 200,
 				type: true,
 				message: 'Giriş Başarılı!',
-				data: {
-					token
-				}
+				data: {token: token}
 			};
 		}
 		catch (err) {

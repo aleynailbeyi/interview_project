@@ -32,7 +32,6 @@ class roleBaseFunction {
 						}
 					]
 				});
-				console.log(JSON.parse(JSON.stringify(user)));
 				if (user){
 					next();
 				}

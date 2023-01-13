@@ -12,7 +12,7 @@ const id = 1;
 
 describe('Surveys', () => {
 	before(async () => {
-		tokenUser = await tokenTest.getToken('test@gmail.com', 'test');
+		tokenUser = await tokenTest.getToken('aleyna@gmail.com', '123456');
 	});
 	it('should create survey', (done) => {
 		chai.request(app)

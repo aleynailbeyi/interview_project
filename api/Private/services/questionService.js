@@ -7,7 +7,15 @@ class questionService {
 			const getQuestionResult = await db.Questions.findAll({
 				where: {
 					is_removed: false
-				}
+				},
+				include: [
+					{
+						model: db.Surveys
+					},
+					{
+						model: db.Choices
+					}
+				]
 			});
 			if (!getQuestionResult) {
 				return { type: false, message: 'Questions not get.' };
