@@ -46,8 +46,31 @@ class interviewController{
 		catch (error) {
 			return { type: false, message: error.message };
 		}
-		
 	}
+	/**
+	 * @route GET /private/v1/interview/downloadPDF/{id} - Download PDF
+	 * @group Interview 
+	 * @param {number} id.path.required
+	 * @returns {Error}  error
+	 * @returns {object} 200
+	 * @security JWT
+	 */
+	static async downloadPDF(req, res){
+		try {
+			const result = await interviewService.downloadPDF(req);
+			if (!result.type) {
+				res.json(result);
+			}
+			res.setHeader('Content-Type', 'application/pdf');
+			res.setHeader('Content-Disposition', 'attachment; filename=resume.pdf');
+			return res.sendFile(result.data);
+				
+		}
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}	
+	
 	/**
 	 * @route GET /private/v1/interview/getAllInterview - Get Interview
 	 * @group Interview 

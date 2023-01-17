@@ -2,27 +2,27 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Answers', {
+		await queryInterface.createTable('NewInterviews', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			interview_id: {
+			int_id: {
 				type: Sequelize.INTEGER,
 				references: {
 					model: 'Interviews',
 					key: 'id'
 				}
 			},
-			text: {
+			int_req: {
 				type: Sequelize.STRING
 			},
 			is_removed: {
-				type: Sequelize.BOOLEAN,
+				allowNull: false,
 				defaultValue: false,
-				allowNull: false
+				type: Sequelize.BOOLEAN
 			},
 			createdAt: {
 				allowNull: false,
@@ -35,6 +35,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface) {
-		await queryInterface.dropTable('Answers');
+		await queryInterface.dropTable('NewInterviews');
 	}
 };

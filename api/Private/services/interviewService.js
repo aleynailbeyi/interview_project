@@ -1,4 +1,6 @@
 import db from '../../src/models';
+import fs from 'fs';
+import path from 'path';
 
 class interviewService {
 
@@ -66,6 +68,25 @@ class interviewService {
 			return { type: false, message: error.message };
 		}
 	}
+	static async downloadPDF(req) {
+		try {
+			const interviewID = req.params.id;
+			const result = await db.Files.findOne({
+				where: {
+					interviewID: interviewID
+				},
+				attributes: [ 'path' ]
+			});
+			const file_path = path.join(__dirname, '../../..' ) + path.sep + result.path;
+			if (!fs) {
+				return { type: false, message: 'Path did not found' };
+			}
+			return { type: true, data: file_path };
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
 	static async getAllInterview(){
 		try {
 			const getInterview = await db.Interviews.findAll({ where: {
@@ -88,7 +109,12 @@ class interviewService {
 							]
 						}
 					]
+				},
+			
+				{ 
+					model: db.Answers
 				}
+				
 			]});
 			if (!getInterview) {
 				return { type: false, message: 'Interviews not listed'};
@@ -103,7 +129,7 @@ class interviewService {
 	}
 	static async getInterviewById(req){
 		try {
-			const interviewID = await db.Interviews.findOne({
+			const interviewID = await db.Interviews.findAll({
 				where: {
 					id: req.params.id,
 					is_removed: false
@@ -125,6 +151,9 @@ class interviewService {
 								]
 							}
 						]
+					},
+					{ 
+						model: db.Answers
 					}
 				]
 			});
