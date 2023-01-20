@@ -115,6 +115,17 @@ class interviewController{
 		const result = await interviewService.getInterviewById(req);
 		return res.json(result);
 	}
+	/**
+	 * @route GET /private/v1/interview/getInterviewByType - Interview Type
+	 * @group Interview
+	 * @returns {Error.model}  error
+	 * @returns {CreateInterview.model} 200
+	 * @security JWT
+	 */
+	 static async getInterviewByType(req, res){
+		const result = await interviewService.getInterviewByType(req);
+		return res.json(result);
+	}
 
 	/**
 	 * @route DELETE /private/v1/interview/deleteInterview/{id} - Delete Interview

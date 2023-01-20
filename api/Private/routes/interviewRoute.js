@@ -10,6 +10,7 @@ app.post('/createInterview', [ checkAuth, roleBaseFunction.roleBase(1), upload ]
 app.get('/downloadPDF/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.downloadPDF);
 app.put('/completeInterview/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.completeInterview);
 app.get('/getAllInterview', [ checkAuth, roleBaseFunction.roleBase(6) ], interviewController.getAllInterview);
+app.get('/getInterviewByType', [ checkAuth, roleBaseFunction.roleBase(9) ], interviewController.getInterviewByType);
 app.get('/getInterviewById/:id', checkAuth, interviewController.getInterviewById);
 app.delete('/deleteInterview/:id', [ checkAuth, roleBaseFunction.roleBase(1) ], interviewController.deleteInterview);
 

@@ -6,16 +6,16 @@
  * @property {string} note.required
  * @property {integer} interview_type.required
  * @property {integer} team_id.required
- * @property {integer} status_id.required
  * @property {string} dateAt.required
+ * @property {string} endAt.required
  * @property {integer} location_id.required
  * @property {integer} surveyId.required
  */
 
 /**
  * @typedef New_Interview
- * @property {integer} int_id.required
- * @property {string} int_req.required
+ * @property {integer} interview_id.required
+ * @property {string} interview_req.required
  */
 
 /**
@@ -26,19 +26,25 @@
  */
 
 import newInterviewService from '../services/newInterviewService';
+import NewInterview from '../validation/newInterviewValidation';
 
 class newInterviewController {
 
 	/**
 	 * @route POST /private/v1/newInterview/createNewInterview - Create New Interview
 	 * @group New Interview
-	 * @param {New_Interview.model} int_req.body.required
+	 * @param {New_Interview.model} interview_req.body.required
 	 * @returns {Error.model}  error
 	 * @returns {New_Interview.model} 200
 	 * @security JWT
 	 */
 	static async createNewInterview(req, res){
 		try {
+			const validated_interview = await NewInterview.validateCreateNewInterview(req);
+
+			if (!validated_interview) {
+				res.json({type: false, message: validated_interview.message});
+			}
 			const result = await newInterviewService.createNewInterview(req);
 			
 			return res.json(result);

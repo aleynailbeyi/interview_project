@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-class interview {
+class NewInterview {
 
-	static async validateCreateInterview (body) {
+	static async validateCreateNewInterview (body) {
 		const interviewSchema = Joi.object({
 			userID: Joi.number()
 				.integer()
@@ -37,4 +37,4 @@ class interview {
 	}
 
 }
-export default interview;
+export default NewInterview;

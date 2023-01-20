@@ -126,6 +126,45 @@ class interviewService {
 			return { type: false, message: error.message };
 		}
 	}
+	static async getInterviewByType(){
+		try {
+			const interviewType = await db.Interviews.findAll({
+				where: {
+					interview_type: 2,
+					is_removed: false
+				},
+				include: [
+					{
+						model: db.Files
+						
+					},
+					{
+						model: db.Surveys,
+						include: [
+							{
+								model: db.Questions,
+								include: [
+									{
+										model: db.Choices
+									}
+								]
+							}
+						]
+					},
+					{ 
+						model: db.Answers
+					}
+				]
+			});
+			if (!interviewType)
+				return ({ type: false, message: 'Not found interview type this id.' });
+			else
+				return { type: true, data: interviewType, message: 'Interview type found successfully.' };  
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
 	static async getInterviewById(req){
 		try {
 			const interviewID = await db.Interviews.findAll({

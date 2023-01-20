@@ -35,6 +35,10 @@ module.exports = {
 			permission: 'Create New Interview',
 			createdAt: new Date(),
 			updatedAt: new Date()
+		}, {
+			permission: 'Get Interview By Type',
+			createdAt: new Date(),
+			updatedAt: new Date()
 		} ], {});
 	},
 

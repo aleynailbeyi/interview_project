@@ -53,6 +53,11 @@ module.exports = {
 			permissionId: 8,
 			createdAt: new Date(),
 			updatedAt: new Date()
+		}, {
+			roleId: 2,
+			permissionId: 9,
+			createdAt: new Date(),
+			updatedAt: new Date()
 		} ], {});
 	},
 
