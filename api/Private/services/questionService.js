@@ -40,7 +40,6 @@ class questionService {
 					is_removed: false
 				}
 			});
-			console.log('deleted', deleted[0]);
 			if (deleted[0])
 				return ({ type: true, message: 'Question deleted' });
 			else 

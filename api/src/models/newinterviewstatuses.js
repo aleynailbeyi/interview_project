@@ -3,7 +3,7 @@ const {
 	Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-	class NewInterview extends Model {
+	class NewInterviewStatuses extends Model {
 
 		/**
 		 * Helper method for defining associations.
@@ -11,17 +11,15 @@ module.exports = (sequelize, DataTypes) => {
 		 * The `models/index` file will call this method automatically.
 		 */
 		static associate(models) {
-			models.NewInterview.belongsTo(models.Interviews, { foreignKey: 'int_id'});
+			models.NewInterviewStatuses.hasMany(models.NewInterviews, { foreignKey: 'status_id'});
 		}
 	
 	}
-	NewInterview.init({
-		int_id: DataTypes.INTEGER,
-		int_req: DataTypes.STRING,
-		is_removed: DataTypes.BOOLEAN
+	NewInterviewStatuses.init({
+		status_name: DataTypes.STRING
 	}, {
 		sequelize,
-		modelName: 'NewInterview'
+		modelName: 'NewInterviewStatuses'
 	});
-	return NewInterview;
+	return NewInterviewStatuses;
 };

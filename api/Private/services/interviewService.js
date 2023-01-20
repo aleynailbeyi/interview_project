@@ -8,7 +8,7 @@ class interviewService {
 		try {
 			// eslint-disable-next-line max-len
 			const { userID, applicant_name, location_id, note, interview_type, team_id, dateAt, endAt, surveyId} = JSON.parse(req.body.data);
-			console.log('reqqq', req.files);
+
 			const files = req.files;
 			
 			const fileArr = [];
@@ -19,7 +19,6 @@ class interviewService {
 					path: item.path
 				});
 			});
-			console.log('fileArr', files);
 	
 			const interview = {
 				userID,

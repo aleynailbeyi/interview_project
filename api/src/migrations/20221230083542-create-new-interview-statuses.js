@@ -2,34 +2,15 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Answers', {
+		await queryInterface.createTable('NewInterviewStatuses', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			interview_id: {
-				type: Sequelize.INTEGER,
-				references: {
-					model: 'Interviews',
-					key: 'id'
-				}
-			},
-			text: {
+			status_name: {
 				type: Sequelize.STRING
-			},
-			surveyID: {
-				type: Sequelize.INTEGER,
-				references: {
-					model: 'Surveys',
-					key: 'id'
-				}
-			},
-			is_removed: {
-				type: Sequelize.BOOLEAN,
-				defaultValue: false,
-				allowNull: false
 			},
 			createdAt: {
 				allowNull: false,
@@ -42,6 +23,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface) {
-		await queryInterface.dropTable('Answers');
+		await queryInterface.dropTable('NewInterviewStatuses');
 	}
 };

@@ -18,7 +18,6 @@ describe('Create User', () => {
 				'password': 'test'
 			})
 	 		.end((err, res) => {
-				console.log('res', res.body);
 				if (err) {
 					done(err);
 				}

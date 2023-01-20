@@ -6,13 +6,9 @@ class newInterviewService {
 	static async createNewInterview(req){
 		try {
 			
-			const { int_id, int_req} = req.body;
-			console.log('req.body', req.body);
-			const news = {
-				int_id,
-				int_req
-			};
-			const new_interview = await db.NewInterview.create(news);
+			const new_interview = await db.NewInterviews.create(req.body, {
+				status_id: 1
+			});
 			if (!new_interview) {
 				return {
 					type: false,
@@ -29,7 +25,7 @@ class newInterviewService {
 	}
 	static async getNewInterview(){
 		try {
-			const new_interview = await db.NewInterview.findAll({
+			const new_interview = await db.NewInterviews.findAll({
 				where: {
 					is_removed: false
 				},
@@ -61,7 +57,7 @@ class newInterviewService {
 			return {
 				type: true,
 				data: new_interview,
-				message: 'New interview get by id'
+				message: 'New interview gets'
 			};
 		} 
 		catch (error) {
@@ -69,24 +65,87 @@ class newInterviewService {
 		}
 	}
 
-	static async deleteNewInterview(req) {
+	static async confirmNewInterview(req){
+		try {
+			// eslint-disable-next-line max-len
+			const { userID, applicant_name, location_id, note, interview_type, team_id, dateAt, endAt, surveyId} = JSON.parse(req.body.data);
+	
+			const files = req.files;
+				
+			const fileArr = [];
+	
+			files.map(item => {
+				fileArr.push({
+					file_name: item.filename,
+					path: item.path
+				});
+			});
+		
+			const interview = {
+				userID,
+				applicant_name,
+				location_id,
+				note,
+				interview_type,
+				team_id,
+				dateAt,
+				endAt,
+				Files: fileArr,
+				surveyId
+			};
+			const new_interview = await db.Interviews.create(interview, {
+	
+				include: [
+					{
+						model: db.Files
+								
+					},
+					{
+						model: db.Surveys,
+						include: [
+							{
+								model: db.Questions,
+								include: [
+									{
+										model: db.Choices
+									}
+								]
+							}
+						]
+					}
+				]
+			});
+				
+			if (!new_interview) {
+				return { type: false, message: 'New interview not be created' };
+			}
+			return { data: interview,
+				message: 'New interview created.',
+				type: true };
+	
+		}
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+		
+	}
+
+	static async refuseNewInterview(req) {
 		try {	
-			const deleted = await db.NewInterview.update(
+			const refused = await db.NewInterviews.update(
 				{
-					is_removed: true
-					
+					status_id: 3
 				},
 				{
 					where: {
 						id: req.params.id,
-						is_removed: false
+						is_removed: false 
 					}
 				});
-			console.log('deleted', deleted);
-			if (!deleted[0]) {
-				return ({ type: false, message: 'New interview not deleted' });
+			if (!refused) {
+				return ({ type: false, message: 'New interview not refused' });
 			}
-			return ({ type: true, message: 'New interview deleted' });
+			return ({ type: true, message: 'New interview refused' });
 		} 
 		catch (error) {
 			return { type: false, message: error.message };

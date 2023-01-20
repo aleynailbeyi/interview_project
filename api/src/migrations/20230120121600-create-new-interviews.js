@@ -9,20 +9,29 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER
 			},
-			int_id: {
+			interview_id: {
 				type: Sequelize.INTEGER,
 				references: {
 					model: 'Interviews',
 					key: 'id'
 				}
 			},
-			int_req: {
+			interview_req: {
 				type: Sequelize.STRING
 			},
-			is_removed: {
+			status_id: {
 				allowNull: false,
+				defaultValue: 1,
+				type: Sequelize.INTEGER,
+				references: {
+					model: 'NewInterviewStatuses',
+					key: 'id'
+				}
+			},
+			is_removed: {
+				type: Sequelize.BOOLEAN,
 				defaultValue: false,
-				type: Sequelize.BOOLEAN
+				allowNull: false
 			},
 			createdAt: {
 				allowNull: false,

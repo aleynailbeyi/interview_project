@@ -6,10 +6,11 @@ class answerService {
 	static async createAnswer(req){
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
-				const { interview_id, text} = req.body;
+				const { interview_id, surveyID, text} = req.body;
 				
 				const answers = {
 					interview_id,
+					surveyID,
 					text
 				};
 				const answer = await db.Answers.create(answers, {
@@ -92,7 +93,6 @@ class answerService {
 						is_removed: false
 					}
 				});
-			console.log('deleted', deleted);
 			if (!deleted[0]) {
 				return ({ type: false, message: 'answer not deleted' });
 			}

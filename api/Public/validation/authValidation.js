@@ -20,7 +20,7 @@ class Auth {
 				.required()
 		});
 		const result = registerSchema.validate(body);
-		console.log('result', result);
+		
 		if (result.error) {
 			return { message: result.error.details[0].message, type: false };
 		}
