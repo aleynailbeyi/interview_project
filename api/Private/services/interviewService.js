@@ -1,4 +1,6 @@
 import db from '../../src/models';
+import fs from 'fs';
+import path from 'path';
 
 class interviewService {
 
@@ -6,7 +8,7 @@ class interviewService {
 		try {
 			// eslint-disable-next-line max-len
 			const { userID, applicant_name, location_id, note, interview_type, team_id, dateAt, endAt, surveyId} = JSON.parse(req.body.data);
-			console.log('reqqq', req.files);
+
 			const files = req.files;
 			
 			const fileArr = [];
@@ -17,7 +19,6 @@ class interviewService {
 					path: item.path
 				});
 			});
-			console.log('fileArr', files);
 	
 			const interview = {
 				userID,
@@ -66,6 +67,25 @@ class interviewService {
 			return { type: false, message: error.message };
 		}
 	}
+	static async downloadPDF(req) {
+		try {
+			const interviewID = req.params.id;
+			const result = await db.Files.findOne({
+				where: {
+					interviewID: interviewID
+				},
+				attributes: [ 'path' ]
+			});
+			const file_path = path.join(__dirname, '../../..' ) + path.sep + result.path;
+			if (!fs) {
+				return { type: false, message: 'Path did not found' };
+			}
+			return { type: true, data: file_path };
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
 	static async getAllInterview(){
 		try {
 			const getInterview = await db.Interviews.findAll({ where: {
@@ -88,7 +108,12 @@ class interviewService {
 							]
 						}
 					]
+				},
+			
+				{ 
+					model: db.Answers
 				}
+				
 			]});
 			if (!getInterview) {
 				return { type: false, message: 'Interviews not listed'};
@@ -101,9 +126,48 @@ class interviewService {
 			return { type: false, message: error.message };
 		}
 	}
+	static async getInterviewByType(){
+		try {
+			const interviewType = await db.Interviews.findAll({
+				where: {
+					interview_type: 2,
+					is_removed: false
+				},
+				include: [
+					{
+						model: db.Files
+						
+					},
+					{
+						model: db.Surveys,
+						include: [
+							{
+								model: db.Questions,
+								include: [
+									{
+										model: db.Choices
+									}
+								]
+							}
+						]
+					},
+					{ 
+						model: db.Answers
+					}
+				]
+			});
+			if (!interviewType)
+				return ({ type: false, message: 'Not found interview type this id.' });
+			else
+				return { type: true, data: interviewType, message: 'Interview type found successfully.' };  
+		} 
+		catch (error) {
+			return { type: false, message: error.message };
+		}
+	}
 	static async getInterviewById(req){
 		try {
-			const interviewID = await db.Interviews.findOne({
+			const interviewID = await db.Interviews.findAll({
 				where: {
 					id: req.params.id,
 					is_removed: false
@@ -125,6 +189,9 @@ class interviewService {
 								]
 							}
 						]
+					},
+					{ 
+						model: db.Answers
 					}
 				]
 			});

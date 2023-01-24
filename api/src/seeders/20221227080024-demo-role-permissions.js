@@ -29,6 +29,16 @@ module.exports = {
 			createdAt: new Date(),
 			updatedAt: new Date()
 		}, {
+			roleId: 1,
+			permissionId: 6,
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}, {
+			roleId: 1,
+			permissionId: 7,
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}, {
 			roleId: 2,
 			permissionId: 6,
 			createdAt: new Date(),
@@ -36,6 +46,16 @@ module.exports = {
 		}, {
 			roleId: 2,
 			permissionId: 7,
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}, {
+			roleId: 2,
+			permissionId: 8,
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}, {
+			roleId: 2,
+			permissionId: 9,
 			createdAt: new Date(),
 			updatedAt: new Date()
 		} ], {});

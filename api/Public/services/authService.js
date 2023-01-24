@@ -7,7 +7,7 @@ class authService {
 	static async register(req) {
 		try {
 			const result = await db.sequelize.transaction(async (t) => {
-				console.log('body', req);
+		
 				const isEmailTaken = await db.Users.findOne({where: { email: req.email }});		
 				if (isEmailTaken) return {
 					type: false,

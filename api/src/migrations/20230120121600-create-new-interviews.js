@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('Answers', {
+		await queryInterface.createTable('NewInterviews', {
 			id: {
 				allowNull: false,
 				autoIncrement: true,
@@ -16,13 +16,15 @@ module.exports = {
 					key: 'id'
 				}
 			},
-			text: {
+			interview_req: {
 				type: Sequelize.STRING
 			},
-			surveyID: {
+			status_id: {
+				allowNull: false,
+				defaultValue: 1,
 				type: Sequelize.INTEGER,
 				references: {
-					model: 'Surveys',
+					model: 'NewInterviewStatuses',
 					key: 'id'
 				}
 			},
@@ -42,6 +44,6 @@ module.exports = {
 		});
 	},
 	async down(queryInterface) {
-		await queryInterface.dropTable('Answers');
+		await queryInterface.dropTable('NewInterviews');
 	}
 };

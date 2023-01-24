@@ -5,7 +5,7 @@ class roleBaseFunction {
 	static roleBase(permissionId) {
 		return async (req, res, next) => {
 			try {
-				console.log('decoded', req.decoded);
+			
 				const user = await db.Users.findOne({
 					where: {
 						id: req.decoded.userId

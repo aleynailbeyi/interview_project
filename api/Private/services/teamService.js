@@ -52,7 +52,7 @@ class teamService {
 						is_removed: false
 					}
 				});
-			console.log('deleted', deleted);
+	
 			if (!deleted[0]) {
 				return ({ type: false, message: 'Team not deleted' });
 			}

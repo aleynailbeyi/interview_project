@@ -108,7 +108,7 @@ class surveyService {
 						is_removed: false
 					}
 				});
-			console.log('deleted', deleted);
+
 			if (!deleted[0]) {
 				return ({ type: false, message: 'survey not deleted' });
 			}
